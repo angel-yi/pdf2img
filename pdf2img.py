@@ -17,8 +17,6 @@ def pdf2img(input_paths="./", outputpath="./docimg.pdf", zoom=1.0):
         pm = page.getPixmap(matrix=trans, alpha=False)
         pm.writePNG(outputpath + '/tu' + '{:02}.png'.format(pg))
 
-    print()
-
 
 if __name__ == "__main__":
     while 1:
