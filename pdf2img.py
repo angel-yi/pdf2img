@@ -13,9 +13,7 @@ def pdf2img(input_paths="./", outputpath="./docimg.pdf", zoom=1.0):
         page = doc[pg]
         rotate = int(0)
         # 每个尺寸的缩放系数为8，这将为我们生成分辨率提高64倍的图像。
-        zoom_x = zoom
-        zoom_y = zoom
-        trans = fitz.Matrix(zoom_x, zoom_y).preRotate(rotate)
+        trans = fitz.Matrix(zoom, zoom).preRotate(rotate)
         pm = page.getPixmap(matrix=trans, alpha=False)
         pm.writePNG(outputpath + '/tu' + '{:02}.png'.format(pg))
 
@@ -32,8 +30,10 @@ if __name__ == "__main__":
         logger.info(out)
         logger.debug('输入图像放大倍数，可回车跳过，默认1.0')
         zoom = input()
-        if zoom:
-            zoom = float(zoom)
-
-        pdf2img(file_in, out, zoom)
-        logger.info("\n转换完成！")
+        try:
+            if zoom:
+                zoom = float(zoom)
+            pdf2img(file_in, out, zoom)
+            logger.info("\n转换完成！")
+        except Exception as e:
+            logger.exception(f'错误，转换失败：{e}', exc_info=True)
